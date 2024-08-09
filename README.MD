@@ -61,16 +61,6 @@ And still, after I've required oxideshop-ce in my project, I can't test the meth
 since the function startProfile can't be found. When I replace the function oxNew by UtilsObject::getInstance()->oxNew, 
 then an error appears that the file config.inc.php can't be found.
 
-```shell
-inotifywait -rm pictures/
-```
-
-```php
-//$t = time();
-//$output->writeln(print_r($this->buildTemplateCache->execute(), true));
-//$output->writeln('It took me ' . time() - $t . 's.');
-```
-
 ## Performance test: Request resources
 
 ### curl
