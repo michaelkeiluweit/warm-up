@@ -1,0 +1,14 @@
+services:
+
+    _defaults:
+        autowire: true
+        public: false
+
+    MichaelKeiluweit\WarmUp\:
+        resource: 'src/*'
+        exclude:
+            - 'src/**/{DataType,Exception}'
+
+    MichaelKeiluweit\WarmUp\Shared\Command\WarmUpCommand:
+        tags:
+            - { name: 'console.command' }
