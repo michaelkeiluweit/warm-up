@@ -1,7 +1,7 @@
 
 ## About
 
-This command is about to execute pre-fill the cache by calling the cache-items beforehand.  
+This command is about to pre-fill the cache by calling the cache-items beforehand.  
 The mission of this project is to have the directory `tmp` filled automatically as much as possible so that a request 
 from a customer doesn't add anything more, but just benefits from the provided cache files.
 
