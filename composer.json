@@ -14,7 +14,7 @@
             "email": "michael.keiluweit@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "conflict": {
         "oxid-esales/oxideshop-ce": "<7.0"
     },
