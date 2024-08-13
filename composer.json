@@ -19,14 +19,14 @@
         "oxid-esales/oxideshop-ce": "<7.0"
     },
     "require": {
-        "php": ">=8.1",
-        "mikey179/vfsstream": "^2.0"
+        "php": ">=8.1"
     },
     "require-dev": {
         "phpunit/phpunit": "^11",
         "doctrine/dbal": "^2",
         "oxid-esales/oxideshop-ce": "dev-b-7.1.x",
-        "curl/curl": "^2"
+        "curl/curl": "^2",
+        "mikey179/vfsstream": "^2.0"
     },
     "config": {
         "allow-plugins": {
