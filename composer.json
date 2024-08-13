@@ -19,7 +19,7 @@
         "oxid-esales/oxideshop-ce": "<7.0"
     },
     "require": {
-        "php": ">=8.2",
+        "php": ">=8.1",
         "mikey179/vfsstream": "^2.0@dev"
     },
     "require-dev": {
