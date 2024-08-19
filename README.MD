@@ -25,9 +25,10 @@ composer require michaelkeiluweit/warm-up
 See `./vendor/bin/oe-console mk:warm-up --help` for optional switches. 
 
 ## Todos
+- table meta information cache
 - try catch iterateAssociative
 - doctrine default log? docu says: set to null to increase performance
-- database structure cache files generator
+- database structure cache files generator (done?)
 - Multishop compatibility
 - Currently only product pictures are generated
 
