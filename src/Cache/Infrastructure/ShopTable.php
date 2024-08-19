@@ -28,7 +28,7 @@ class ShopTable
                 and
                     table_name like 'ox%'"
             )
-        ->fetchAllAssociative();
+            ->fetchAllAssociative();
 
 
         $names = [];

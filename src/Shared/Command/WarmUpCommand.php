@@ -19,7 +19,7 @@ final class WarmUpCommand extends Command
 {
     private const OPTION_WITHOUT_TEMPLATES = 'without-templates';
     private const OPTION_WITHOUT_PICTURES = 'without-pictures';
-    private const OPTION_WITHOUT_TABLE_META = 'without-table-fields';
+    private const OPTION_WITHOUT_TABLE_META = 'without-table-meta';
 
     public function __construct(
         private readonly BuildTemplateCache $buildTemplateCache,
