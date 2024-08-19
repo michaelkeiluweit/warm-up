@@ -12,6 +12,7 @@ use OxidEsales\Eshop\Application\Model\Article;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Console\Helper\ProgressIndicator;
 
 #[CoversClass(GeneratePictures::class)]
 #[UsesClass(Article::class)]
@@ -38,11 +39,14 @@ class GeneratePicturesTest extends TestCase
         $externalResource = $this->createMock(ExternalResource::class);
         $externalResource->expects($this->exactly(3))->method('poke');
 
+        $progressIndicator = $this->createMock(ProgressIndicator::class);
+        $progressIndicator->expects($this->any())->method('advance');
+
         $generatePictures = new GeneratePictures(
             $pictureItem,
             $externalResource
         );
 
-        $generatePictures->execute();
+        $generatePictures->execute($progressIndicator);
     }
 }

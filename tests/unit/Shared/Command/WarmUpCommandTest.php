@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MichaelKeiluweit\WarmUp\Tests\Unit\Shared\Command;
 
+use MichaelKeiluweit\WarmUp\Cache\Service\GenerateTableMetaCache;
 use MichaelKeiluweit\WarmUp\Shared\Command\WarmUpCommand;
 use MichaelKeiluweit\WarmUp\Cache\Service\BuildTemplateCache;
 use MichaelKeiluweit\WarmUp\Picture\Service\GeneratePictures;
@@ -23,10 +24,17 @@ class WarmUpCommandTest extends TestCase
         $generatePictures = $this->createMock(GeneratePictures::class);
         $generatePictures->expects($this->once())->method('execute');
 
+        $generateTableMetaCache = $this->createMock(GenerateTableMetaCache::class);
+        $generateTableMetaCache->expects($this->once())->method('execute');
+
         $input = $this->createMock(InputInterface::class);
         $input->expects($this->any())->method('getOption')->willReturn(false);
 
-        $command = new WarmUpCommand($buildTemplateCache, $generatePictures);
+        $command = new WarmUpCommand(
+            $buildTemplateCache,
+            $generatePictures,
+            $generateTableMetaCache
+        );
         $command->run($input, $this->createMock(OutputInterface::class));
     }
 }

@@ -5,17 +5,19 @@ declare(strict_types=1);
 namespace MichaelKeiluweit\WarmUp\Picture\Service;
 
 use MichaelKeiluweit\WarmUp\Picture\Infrastructure\PictureItem;
+use MichaelKeiluweit\WarmUp\Shared\Contract\ProgressIndicatorable;
 use MichaelKeiluweit\WarmUp\Shared\Infrastructure\ExternalResource;
 use OxidEsales\Eshop\Application\Model\Article;
+use Symfony\Component\Console\Helper\ProgressIndicator;
 
-class GeneratePictures
+class GeneratePictures implements ProgressIndicatorable
 {
     public function __construct(
         private readonly PictureItem $item,
         private readonly ExternalResource $io,
     ) {}
 
-    public function execute(): void
+    public function execute(ProgressIndicator $progressIndicator): void
     {
         $relevantPictureGalleryItems = [
             'Pics',
@@ -32,6 +34,7 @@ class GeneratePictures
             foreach ($relevantPictureGalleryItems as $item) {
                 foreach ($product->getPictureGallery()[$item] as $url) {
                     $this->io->poke($url);
+                    $progressIndicator->advance();
                 }
             }
 
@@ -46,6 +49,7 @@ class GeneratePictures
              */
             foreach ($product->getPictureGallery()['ZoomPics'] as $associativeSubArray) {
                 $this->io->poke($associativeSubArray['file']);
+                $progressIndicator->advance();
             }
         }
     }
