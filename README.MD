@@ -12,6 +12,20 @@ template cache.
 ### Pictures
 All different kinds of pictures are generated from the main picture.
 
+### Container Cache
+Note that the container cache is build once any shop command is executed, except oe:clear:cache. So, no extra command 
+for that is needed.
+
+### Module Cache
+By calling the `ActiveModulesDataProviderBridge` object, the class extensions, module paths and module controllers will 
+be written to the cache.
+
+### Language Cache
+Checks for all active languages and generates the language cache files.
+
+## Requirements
+- OXID eShop 7
+
 ## Installation
 ```shell
 composer require michaelkeiluweit/warm-up

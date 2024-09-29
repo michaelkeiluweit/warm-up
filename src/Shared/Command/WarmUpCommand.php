@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace MichaelKeiluweit\WarmUp\Shared\Command;
 
 use MichaelKeiluweit\WarmUp\Cache\Service\BuildTemplateCache;
+use MichaelKeiluweit\WarmUp\Cache\Service\LanguageCache;
+use MichaelKeiluweit\WarmUp\Cache\Service\ModuleCache;
 use MichaelKeiluweit\WarmUp\Picture\Service\GeneratePictures;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,10 +17,14 @@ final class WarmUpCommand extends Command
 {
     private const OPTION_WITHOUT_TEMPLATES = 'without-templates';
     private const OPTION_WITHOUT_PICTURES = 'without-pictures';
+    private const OPTION_WITHOUT_MODULES_CACHE = 'without-modules-cache';
+    private const OPTION_WITHOUT_LANGUAGE = 'without-language';
 
     public function __construct(
         private readonly BuildTemplateCache $buildTemplateCache,
         private readonly GeneratePictures $generatePictures,
+        private readonly ModuleCache $moduleCache,
+        private readonly LanguageCache $languageCache,
     ) {
         parent::__construct();
     }
@@ -41,6 +47,18 @@ final class WarmUpCommand extends Command
                 InputOption::VALUE_NONE,
                 'Deactivates the generation of the images.'
             )
+            ->addOption(
+                WarmUpCommand::OPTION_WITHOUT_MODULES_CACHE,
+                null,
+                InputOption::VALUE_NONE,
+                'Deactivates the generation of module cache files. E.g. tmp/modules/1/absolute_module_paths.txt'
+            )
+            ->addOption(
+                WarmUpCommand::OPTION_WITHOUT_LANGUAGE,
+                null,
+                InputOption::VALUE_NONE,
+                'Deactivates the generation of language cache files. E.g. tmp/oxeec_langcache_0_0_1_apex_default.txt'
+            )
         ;
     }
 
@@ -48,6 +66,8 @@ final class WarmUpCommand extends Command
     {
         $this->compileTemplates($input, $output);
         $this->generatePictures($input, $output);
+        $this->generateModuleCache($input, $output);
+        $this->generateLanguageCache($input, $output);
 
         return Command::SUCCESS;
     }
@@ -66,6 +86,24 @@ final class WarmUpCommand extends Command
         if (!$input->getOption(WarmUpCommand::OPTION_WITHOUT_PICTURES)) {
             $output->write('Generating pictures...');
             $this->generatePictures->execute();
+            $output->writeln(' done!');
+        }
+    }
+
+    protected function generateModuleCache(InputInterface $input, OutputInterface $output): void
+    {
+        if (!$input->getOption(WarmUpCommand::OPTION_WITHOUT_MODULES_CACHE)) {
+            $output->write('Generating module cache files...');
+            $this->moduleCache->execute();
+            $output->writeln(' done!');
+        }
+    }
+
+    protected function generateLanguageCache(InputInterface $input, OutputInterface $output): void
+    {
+        if (!$input->getOption(WarmUpCommand::OPTION_WITHOUT_LANGUAGE)) {
+            $output->write('Generating language cache files...');
+            $this->languageCache->execute();
             $output->writeln(' done!');
         }
     }
