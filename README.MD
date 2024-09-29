@@ -1,7 +1,7 @@
 
 ## About
 
-This command is about to execute pre-fill the cache by calling the cache-items beforehand.  
+This command is about to pre-fill the cache by calling the cache-items beforehand.  
 The mission of this project is to have the directory `tmp` filled automatically as much as possible so that a request 
 from a customer doesn't add anything more, but just benefits from the provided cache files.
 
@@ -39,9 +39,10 @@ composer require michaelkeiluweit/warm-up
 See `./vendor/bin/oe-console mk:warm-up --help` for optional switches. 
 
 ## Todos
+- table meta information cache
 - try catch iterateAssociative
 - doctrine default log? docu says: set to null to increase performance
-- database structure cache files generator
+- database structure cache files generator (done?)
 - Multishop compatibility
 - Currently only product pictures are generated
 
@@ -74,16 +75,6 @@ compatible, but the used dependencies could be outdated.
 And still, after I've required oxideshop-ce in my project, I can't test the method MichaelKeiluweit\WarmUp\Picture\Factory\ShopObject::create, 
 since the function startProfile can't be found. When I replace the function oxNew by UtilsObject::getInstance()->oxNew, 
 then an error appears that the file config.inc.php can't be found.
-
-```shell
-inotifywait -rm pictures/
-```
-
-```php
-//$t = time();
-//$output->writeln(print_r($this->buildTemplateCache->execute(), true));
-//$output->writeln('It took me ' . time() - $t . 's.');
-```
 
 ## Performance test: Request resources
 

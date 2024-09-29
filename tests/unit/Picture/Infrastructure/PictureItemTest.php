@@ -7,8 +7,8 @@ namespace MichaelKeiluweit\WarmUp\Tests\Unit\Picture\Infrastructure;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Generator;
-use MichaelKeiluweit\WarmUp\Picture\Factory\ShopObject;
 use MichaelKeiluweit\WarmUp\Picture\Infrastructure\PictureItem;
+use MichaelKeiluweit\WarmUp\Shared\Factory\ShopObject;
 use OxidEsales\Eshop\Core\Model\BaseModel;
 use OxidEsales\EshopCommunity\Internal\Framework\Database\QueryBuilderFactoryInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -39,7 +39,7 @@ class PictureItemTest extends TestCase
         $ShopObject->expects($this->once())->method('load');
 
         $shopObjectFactoryStub = $this->createStub(ShopObject::class);
-        $shopObjectFactoryStub->method('create')->willReturn($ShopObject);
+        $shopObjectFactoryStub->method('createArticle')->willReturn($ShopObject);
 
         $infrastructure = new PictureItem(
             $queryBuilderFactoryStub,

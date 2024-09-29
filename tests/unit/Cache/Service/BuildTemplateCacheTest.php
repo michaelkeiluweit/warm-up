@@ -13,6 +13,7 @@ use OxidEsales\Eshop\Core\Config;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Console\Helper\ProgressIndicator;
 
 
 #[CoversClass(BuildTemplateCache::class)]
@@ -30,11 +31,14 @@ class BuildTemplateCacheTest extends TestCase
         $resourceInterface = $this->createMock(ExternalResource::class);
         $resourceInterface->expects($this->exactly(2))->method('poke');
 
+        $progressIndicator = $this->createMock(ProgressIndicator::class);
+        $progressIndicator->expects($this->any())->method('advance');
+
         $buildTemplateCache = new BuildTemplateCache(
             $seoItemInfrastructure, $config, $resourceInterface
         );
 
-        $buildTemplateCache->execute();
+        $buildTemplateCache->execute($progressIndicator);
     }
 
     public function provideSeoItemDataTypeGenerator(): Generator

@@ -2,4 +2,6 @@
 .phpunit.result.cache
 composer.lock
 html/
+source/
+var/
 vendor/

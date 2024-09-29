@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace MichaelKeiluweit\WarmUp\Picture\Infrastructure;
 
 use Generator;
-use MichaelKeiluweit\WarmUp\Picture\Factory\ShopObject;
-use OxidEsales\Eshop\Application\Model\Article;
+use MichaelKeiluweit\WarmUp\Shared\Factory\ShopObject;
 use OxidEsales\EshopCommunity\Internal\Framework\Database\QueryBuilderFactoryInterface;
 
 class PictureItem
@@ -22,7 +21,7 @@ class PictureItem
         $query = 'select oxid from oxarticles where oxshopid = :id';
 
         foreach ($connection->iterateAssociative($query, ['id' => 1]) as $row) {
-            $product = $this->shopObjectFactory->create(Article::class);
+            $product = $this->shopObjectFactory->createArticle();
             $product->load($row['oxid']);
             yield $product;
         }
