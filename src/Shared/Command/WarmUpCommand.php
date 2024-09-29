@@ -10,12 +10,10 @@ use MichaelKeiluweit\WarmUp\Cache\Service\LanguageCache;
 use MichaelKeiluweit\WarmUp\Cache\Service\ModuleCache;
 use MichaelKeiluweit\WarmUp\Picture\Service\GeneratePictures;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Console\Helper\ProgressIndicator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Process\Process;
 
 final class WarmUpCommand extends Command
 {
@@ -28,9 +26,9 @@ final class WarmUpCommand extends Command
     public function __construct(
         private readonly BuildTemplateCache $buildTemplateCache,
         private readonly GeneratePictures $generatePictures,
+        private readonly GenerateTableMetaCache $generateTableMetaCache,
         private readonly ModuleCache $moduleCache,
         private readonly LanguageCache $languageCache,
-        private readonly GenerateTableMetaCache $generateTableMetaCache,
     ) {
         parent::__construct();
     }
@@ -78,13 +76,23 @@ final class WarmUpCommand extends Command
     {
         $output->writeln('<comment>Depending on the number of objects, this may take some time.</comment>');
 
+        $this->generateModuleCache($input, $output);
         $this->generateTableMetaCache($input, $output);
         $this->compileTemplates($input, $output);
         $this->generatePictures($input, $output);
-        $this->generateModuleCache($input, $output);
         $this->generateLanguageCache($input, $output);
 
         return Command::SUCCESS;
+    }
+
+    protected function generateModuleCache(InputInterface $input, OutputInterface $output): void
+    {
+        if (!$input->getOption(WarmUpCommand::OPTION_WITHOUT_MODULES_CACHE)) {
+            $progressIndicator = new ProgressIndicator($output);
+            $progressIndicator->start('<info>Generating module cache files...</info>');
+            $this->moduleCache->execute();
+            $progressIndicator->finish('<info>Generating module cache files... done!</info>');
+        }
     }
 
     protected function generateTableMetaCache(InputInterface $input, OutputInterface $output): void
@@ -117,21 +125,13 @@ final class WarmUpCommand extends Command
         }
     }
 
-    protected function generateModuleCache(InputInterface $input, OutputInterface $output): void
-    {
-        if (!$input->getOption(WarmUpCommand::OPTION_WITHOUT_MODULES_CACHE)) {
-            $output->write('Generating module cache files...');
-            $this->moduleCache->execute();
-            $output->writeln(' done!');
-        }
-    }
-
     protected function generateLanguageCache(InputInterface $input, OutputInterface $output): void
     {
         if (!$input->getOption(WarmUpCommand::OPTION_WITHOUT_LANGUAGE)) {
-            $output->write('Generating language cache files...');
+            $progressIndicator = new ProgressIndicator($output);
+            $progressIndicator->start('<info>Generating language cache files...</info>');
             $this->languageCache->execute();
-            $output->writeln(' done!');
+            $progressIndicator->finish('<info>Generating language cache files... done!</info>');
         }
     }
 }

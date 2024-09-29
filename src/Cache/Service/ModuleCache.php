@@ -22,7 +22,8 @@ class ModuleCache
     {
         $activeModulesDataProvider = ContainerFactory::getInstance()
             ->getContainer()
-            ->get(ActiveModulesDataProviderBridgeInterface::class);
+            ->get(ActiveModulesDataProviderBridgeInterface::class)
+        ;
 
         $activeModulesDataProvider->getClassExtensions();
         $activeModulesDataProvider->getModulePaths();
